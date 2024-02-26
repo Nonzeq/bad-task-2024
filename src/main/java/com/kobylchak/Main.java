@@ -1,6 +1,9 @@
 package com.kobylchak;
 
+import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -12,12 +15,25 @@ public class Main {
     private static final String PATH_TO_TEST_FILE = "src/main/resources/files/test_file.txt";
 
     public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-        List<String> data = null;
+        System.out.println(ConsoleColors.YELLOW_BOLD + "Input file should be in current " +
+                "directory" + ConsoleColors.RESET);
+        System.out.print("Enter a file name: ");
+        String path;
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         try {
-            data = Files.readAllLines(Path.of(PATH_TO_FILE));
+            path = bufferedReader.readLine();
         } catch (IOException e) {
-            throw new RuntimeException("Cannot read file: " + PATH_TO_FILE ,e);
+            throw new RuntimeException("Cannot read line",e);
+        }
+        long start = System.currentTimeMillis();
+        List<String> data;
+        if (path == null) {
+            throw new RuntimeException("Path is null");
+        }
+        try {
+            data = Files.readAllLines(Path.of(path));
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot read file: " + path ,e);
         }
         int[] ar = new int[data.size()];
         for (int i = 0; i < data.size(); i++) {
@@ -32,7 +48,7 @@ public class Main {
         long median = ar.length % 2 == 1 ? ar[ar.length / 2] :
                 (ar[ar.length / 2 - 1] + ar[ar.length / 2]) / 2;
         long end = System.currentTimeMillis();
-        System.out.println("time: " + (end - start));
+        System.out.println("Exectution time: " + (end - start) + " ms");
         System.out.println("Max: " + ar[ar.length - 1]);
         System.out.println("Min: " + ar[0]);
         System.out.println("Avg: " + Arrays.stream(ar).sum() / ar.length);
