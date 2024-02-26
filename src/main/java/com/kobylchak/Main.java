@@ -11,9 +11,14 @@ public class Main {
     private static final String PATH_TO_FILE = "src/main/resources/files/input_file.txt";
     private static final String PATH_TO_TEST_FILE = "src/main/resources/files/test_file.txt";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         long start = System.currentTimeMillis();
-        List<String> data = Files.readAllLines(Path.of(PATH_TO_FILE));
+        List<String> data = null;
+        try {
+            data = Files.readAllLines(Path.of(PATH_TO_FILE));
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot read file: " + PATH_TO_FILE ,e);
+        }
         int[] ar = new int[data.size()];
         for (int i = 0; i < data.size(); i++) {
             ar[i] = Integer.parseInt(data.get(i));
