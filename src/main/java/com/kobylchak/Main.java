@@ -1,7 +1,6 @@
 package com.kobylchak;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
@@ -25,6 +24,7 @@ public class Main {
         } catch (IOException e) {
             throw new RuntimeException("Cannot read line",e);
         }
+        System.out.println(ConsoleColors.GREEN_BOLD +   "Processing..." + ConsoleColors.RESET);
         long start = System.currentTimeMillis();
         List<String> data;
         if (path == null) {
